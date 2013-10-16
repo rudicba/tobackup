@@ -19,6 +19,7 @@ class Backup < ActiveRecord::Base
                           :recursive => true,                           # Recursive
                           :ssh => { :password => APP_CONFIG['pass'] })  # Pass
       self.status = "ok"
+      self.lase = Time.now
     rescue Exception => msg
       self.status = msg.to_s
     end
