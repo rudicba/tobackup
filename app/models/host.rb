@@ -1,6 +1,6 @@
 class Host < ActiveRecord::Base
+  has_many  :backups
   validates :name, uniqueness: true, presence: true
-  #validates :ip, uniqueness: true
   
   def check_status
     Timeout::timeout(5) do

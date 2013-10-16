@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  path: MyString
+  status: MyString
+  last: 2013-10-14 19:26:26
+  user_id: 
+  host_id: 
+
+two:
+  path: MyString
+  status: MyString
+  last: 2013-10-14 19:26:26
+  user_id: 
+  host_id: 

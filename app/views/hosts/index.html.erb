@@ -1,38 +1,36 @@
 <table class="table table-striped table-bordered">
-<thead>
+  <thead>
     <tr>
       <th>Name</th>
       <th>Ip</th>
       <th>Status</th>
       <th>Actions</th>
     </tr>
-</thead>
+  </thead>
   <tbody>
-  	<% unless @hosts.empty? %>
-<% @hosts.each do |host| %>
-      <tr>
-        <td><%= link_to host.name, host_path(host)%></td>
-        <td><%= host.ip %></td>
-        <td><%= host.status %></td>
-        <td>
-          <%= link_to t('.check', :default => t("check")),
-                      check_host_path(host), :class => 'btn btn-mini', :method => :patch %>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_host_path(host), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      host_path(host),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-<% end %>
-  <% else %>
-    <tr>
-      <td colspan="0">Nothing to see here...</td>
-    </tr>
-  <% end %>
-
+    <% unless @hosts.empty? %>
+	  <% @hosts.each do |host| %>
+	    <tr>
+	      <td><%= link_to host.name, host_path(host)%></td>
+	      <td><%= host.ip %></td>
+	      <td><%= host.status %></td>
+	      <td>
+	        <%= link_to t('.check', :default => t("check")),
+	                     check_host_path(host), :class => 'btn btn-mini', :method => :patch %>
+	        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+	                     edit_host_path(host), :class => 'btn btn-mini' %>
+	        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+	                     host_path(host),
+	                     :method => :delete,
+	                     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+	                     :class => 'btn btn-mini btn-danger' %>
+	      </td>
+	    </tr>
+	  <% end %>
+	<% else %>
+	  <tr>
+	    <td colspan="0">Nothing to see here...</td>
+	  </tr>
+	<% end %>
   </tbody>
 </table>
-

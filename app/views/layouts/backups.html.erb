@@ -1,0 +1,25 @@
+<% content_for :content do %>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span3">
+        <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+          	<li class="nav-header">Hosts</li>
+            <li class="<%= 'active' if active_action?('index') %>">
+              <%= link_to "Backups", backups_path %>
+            </li>
+            <li class="<%= 'active' if active_action?('new') %>">
+              <%= link_to "New Backup", new_backup_path %>
+            </li>
+          </ul>
+        </div><!--/.well -->
+      </div><!--/span-->
+      <div class="span9">
+      	<%= bootstrap_flash %>
+        <%= yield %>
+      </div>
+    </div><!--/row-->
+  </div><!-- /container -->
+<% end %>
+
+<%= render :file => 'layouts/application' %>

@@ -1,8 +1,13 @@
 Tobackup::Application.routes.draw do
+  resources :backups do
+    patch 'now', on: :member
+    patch 'download', on: :member
+  end
+
   resources :testhosts
 
   resources :hosts do
-      patch 'check',  on: :member
+    patch 'check',  on: :member
   end
 
   devise_for :users
@@ -12,7 +17,7 @@ Tobackup::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   
-  root 'hosts#index'  
+  root 'backups#index'  
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

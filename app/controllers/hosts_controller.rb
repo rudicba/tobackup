@@ -22,7 +22,7 @@ class HostsController < ApplicationController
   def edit
   end
   
-  # GET /hosts/1/check
+  # PATCH /hosts/1/check
   def check
     @host.update_status
     redirect_to hosts_path

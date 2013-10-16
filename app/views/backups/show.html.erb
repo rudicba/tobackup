@@ -1,0 +1,24 @@
+<legend><%=t '.title', :default => Host.model_name.human.titleize %></legend>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= Backup.human_attribute_name(:host) %>:</strong></dt>
+  <dd><%= @backup.host.name %></dd>
+  <dt><strong><%= Backup.human_attribute_name(:path) %>:</strong></dt>
+  <dd><%= @backup.path %></dd>
+  <dt><strong><%= Backup.human_attribute_name(:last) %>:</strong></dt>
+  <dd><%= @backup.last %></dd>
+  <dt><strong><%= Backup.human_attribute_name(:status) %>:</strong></dt>
+  <dd><%= @backup.status %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              backups_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_backup_path(@backup), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              backup_path(@backup),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

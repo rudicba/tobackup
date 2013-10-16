@@ -1,0 +1,22 @@
+<%= form_for @backup, :html => { :class => 'form-horizontal' } do |f| %>
+    <legend><%= controller.action_name.capitalize %> Backup</legend>
+     
+    <div class="control-group">
+      <%= f.label :host, :class => 'control-label' %>
+      <div class="controls">
+        <%= collection_select(:backup, :host_id , Host.all, :id, :name) %>
+      </div>
+    </div>
+   
+    <div class="control-group">
+      <%= f.label :path, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :path, :class => 'text_field', :placeholder => "Path to backup" %>
+      </div>
+    </div>
+  
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', backups_path, :class => 'btn' %>
+    </div>
+<% end %>

@@ -67,6 +67,9 @@ GEM
     net-ldap (0.3.1)
     net-ping (1.7.1)
       ffi (>= 1.0.0)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.7.0)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -140,6 +143,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   net-ping
+  net-scp (~> 1.1.2)
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc

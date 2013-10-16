@@ -29,6 +29,12 @@ gem "twitter-bootstrap-rails"
 # http://rubygems.org/gems/net-ping
 gem "net-ping"
 
+# http://rubygems.org/gems/net-sftp
+#gem "net-sftp", "~> 2.1.2"
+
+# https://rubygems.org/gems/net-scp
+gem "net-scp", "~> 1.1.2"
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 

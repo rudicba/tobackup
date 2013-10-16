@@ -1,0 +1,43 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Host</th>
+      <th>Path</th>
+      <th>Status</th>
+      <th>Last</th>
+      <th>Actions</th>
+      <th>Manage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless @backups.empty? %>
+	  <% @backups.each do |backup| %>
+	    <tr>
+	      <td><%= backup.host.name %></td>
+	      <td><%= link_to backup.path, backup_path(backup)%></td>
+	      <td><%= backup.status %></td>
+	      <td><%= backup.last %></td>
+	      <td>
+	        <%= link_to t('.backup_now', :default => t("backup now")),
+	                     now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
+	        <%= link_to t('.download', :default => t("Download")),
+	                     download_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
+	      </td>
+	      <td>
+	        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+	                     edit_backup_path(backup), :class => 'btn btn-mini' %>
+	        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+	                     backup_path(backup),
+	                     :method => :delete,
+	                     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+	                     :class => 'btn btn-mini btn-danger' %>
+	      </td>
+	    </tr>
+	  <% end %>
+	<% else %>
+	  <tr>
+	    <td colspan="0">Nothing to see here...</td>
+	  </tr>
+	<% end %>
+  </tbody>
+</table>
