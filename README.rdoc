@@ -1,1 +1,24 @@
 == README
+
+=== Install on FreeBSD 9.1 or PC-BSD
+
+pkg update
+pkg install bash automake autoconf libtool bison readline libyaml curl git apache22 gcc-4.4.7,1 gmake
+
+\curl -L https://get.rvm.io | bash -s stable
+source /etc/profile.d/rvm.sh
+
+rvm install 2.0.0
+rvm use 2.0.0 --default
+gem install rails bundler passenger
+passenger-install-apache2-module
+
+cd /usr/local/www/
+git clone https://github.com/rudicba/tobackup.git
+chown -R www:www tobackup/
+
+comment "gem 'therubyracer', platforms: :ruby" on Gemfile
+add "gem 'therubyracer-freebsd', platforms: :ruby"
+
+copy config/database.yml.example to config/database.yml
+copy config/config.yml.example to config/config.yml

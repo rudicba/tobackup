@@ -48,7 +48,13 @@ class BackupsController < ApplicationController
   # GET /backups/new
   def new
     @backup = Backup.new
-    @backup.host = Host.find_by_name(Resolv.getname(request.remote_ip))
+    begin 
+      hostname = Resolv.getname(request.remote_ip)
+    rescue
+      hostname = ""
+    end
+      
+    @backup.host = Host.find_by_name(hostname)
   end
 
   # GET /backups/1/edit
