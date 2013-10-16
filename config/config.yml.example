@@ -1,0 +1,14 @@
+development:
+  upload_path: "public/data"
+  user: 
+  pass: 
+
+test:
+  upload_path: "public/data"
+  user: 
+  pass: 
+  
+production:
+  upload_path: "public/data"
+  user: 
+  pass: 
