@@ -19,7 +19,6 @@ class Host < ActiveRecord::Base
   
   def resolv_ip
     begin
-      #self.ip = Socket::getaddrinfo(self.name,"echo",Socket::AF_INET)[0][3]
       self.ip = Resolv.getaddress(self.name)
       true
     rescue Resolv::ResolvTimeout

@@ -16,33 +16,17 @@ class BackupsController < ApplicationController
   
   # PATCH /backup/1/now
   def now
-    username    = APP_CONFIG['user']
-    password    = APP_CONFIG['pass']
-    base        = APP_CONFIG['upload_path']
-    hostname    = @backup.host.name
-    path        = @backup.path
-  
-    download_to = File.join(base, @backup.user_id.to_s, @backup.id.to_s)
-  
-    FileUtils.mkdir_p(download_to.to_s) unless File.exists?(download_to.to_s)
- 
-    Net::SSH.start( hostname, username, :password => password ) do |ssh|
-      ssh.scp.download!( path, download_to, :recursive => true )
+    @backup.create_backup
+    if @backup.status == "ok"
+      redirect_to backups_path, notice: 'Backup was successfully upload.'
+    else
+      redirect_to backups_path, notice: "Backup problem: #{@backup.status}"
     end
-    
-    @backup.status = "OK"
-    @backup.last = Time.now
-    @backup.save
-  
-    redirect_to backups_path, notice: 'Backup was successfully upload.'
   end
   
   # PATCH /backup/1/download
   def download
-    uid = @backup.user_id.to_s
-    bid = @backup.id.to_s
-    file = File.join(APP_CONFIG['upload_path'], uid, bid)
-    send_data generate_tgz(file), :filename => 'backup.tar.gz'   
+    send_data @backup.generate_tgz, :filename => 'backup.tgz'   
   end
 
   # GET /backups/new
@@ -69,7 +53,7 @@ class BackupsController < ApplicationController
 
     respond_to do |format|
       if @backup.save
-        format.html { redirect_to @backup, notice: 'Backup was successfully created.' }
+        format.html { redirect_to backups_path, notice: 'Backup was successfully created.' }
         format.json { render action: 'show', status: :created, location: @backup }
       else
         format.html { render action: 'new' }
@@ -112,12 +96,4 @@ class BackupsController < ApplicationController
     def backup_params
       params.require(:backup).permit(:path, :user_id, :host_id)
     end
-    
-    def generate_tgz(file)
-      tmpname = rand(36**8).to_s(8)
-      if system("tar -czf #{Rails.root}/tmp/#{tmpname}.tar.gz -C #{file} .")
-        content = File.read("#{Rails.root}/tmp/#{tmpname}.tar.gz")
-      end
-    end
-
 end
