@@ -3,6 +3,7 @@ class Backup < ActiveRecord::Base
   belongs_to  :host
   validates   :user_id, presence: true
   validates   :host_id, presence: true
+  validates   :path, presence: true
   
   def create_backup
     # Where to store backup
@@ -11,15 +12,20 @@ class Backup < ActiveRecord::Base
     
     # Create /upload/path/uid/bid
     FileUtils.mkdir_p(local_path) unless File.exists?(local_path)
-    begin
-      Net::SCP.download!( self.host.name,                               # Host to backup
-                          APP_CONFIG['user'],                           # User to connect
-                          self.path,                                    # Remote path
-                          local_path,                                   # Local path
-                          :recursive => true,                           # Recursive
-                          :ssh => { :password => APP_CONFIG['pass'] })  # Pass
-      self.status = "ok"
-      self.last = Time.now
+    begin Timeout::timeout(5) do
+      begin
+        Net::SCP.download!( self.host.name,                               # Host to backup
+                            APP_CONFIG['user'],                           # User to connect
+                            self.path,                                    # Remote path
+                            local_path,                                   # Local path
+                            :recursive => true,                           # Recursive
+                            :ssh => { :password => APP_CONFIG['pass'] })  # Pass
+        self.status = "ok"
+        self.last = Time.now
+      rescue Exception => msg
+        self.status = msg.to_s
+      end
+    end
     rescue Exception => msg
       self.status = msg.to_s
     end
