@@ -1,4 +1,4 @@
-<%= form_for @backup, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for(@backup, :html => {:class => "form-horizontal"}, :builder => BootstrapFormBuilder) do |f| %>
     <legend><%= controller.action_name.capitalize %> Backup</legend>
      
     <div class="control-group">
@@ -8,12 +8,7 @@
       </div>
     </div>
    
-    <div class="control-group">
-      <%= f.label :path, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :path, :class => 'text_field', :placeholder => "Path to backup" %>
-      </div>
-    </div>
+    <%= f.text_field :path, :placeholder => "Path to backup" %>
   
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>

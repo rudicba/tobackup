@@ -20,7 +20,7 @@ class BackupsController < ApplicationController
     if @backup.status == "ok"
       redirect_to backups_path, notice: 'Backup was successfully upload.'
     else
-      redirect_to backups_path, notice: "Backup problem: #{@backup.status}"
+      redirect_to backups_path, alert: "Backup problem: #{@backup.status}"
     end
   end
   

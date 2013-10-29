@@ -4,8 +4,6 @@ Tobackup::Application.routes.draw do
     patch 'download', on: :member
   end
 
-  resources :testhosts
-
   resources :hosts do
     patch 'check',  on: :member
   end
@@ -16,7 +14,6 @@ Tobackup::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  
   root 'backups#index'  
 
   # Example of regular route:
