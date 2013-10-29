@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131014222626) do
+ActiveRecord::Schema.define(version: 20131029141525) do
 
   create_table "backups", force: true do |t|
     t.string   "path"
@@ -32,14 +32,7 @@ ActiveRecord::Schema.define(version: 20131014222626) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "testhosts", force: true do |t|
-    t.string   "name"
-    t.string   "ip"
-    t.string   "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "cygwin"
   end
 
   create_table "users", force: true do |t|

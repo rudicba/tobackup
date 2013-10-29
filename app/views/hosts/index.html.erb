@@ -3,6 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Ip</th>
+      <th>Cygwin</th>
       <th>Status</th>
       <th>Actions</th>
     </tr>
@@ -13,6 +14,11 @@
 	    <tr>
 	      <td><%= link_to host.name, host_path(host)%></td>
 	      <td><%= host.ip %></td>
+	      <% if host.cygwin %>
+	      	<td><i class="icon-ok"></i></td>
+	      	<% else %>
+	      	<td><i class="icon-remove"></i></td>
+	      <% end %>
 	      <td><%= host.status %></td>
 	      <td>
 	        <%= link_to t('.check', :default => t("check")),

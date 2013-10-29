@@ -5,6 +5,8 @@
   <dd><%= @host.name %></dd>
   <dt><strong><%= Host.human_attribute_name(:ip) %>:</strong></dt>
   <dd><%= @host.ip.empty? ? "Empty" : @host.ip %></dd>
+  <dt><strong><%= Host.human_attribute_name(:cygwin) %>:</strong></dt>
+  <dd><%= @host.cygwin %></dd>
   <dt><strong><%= Host.human_attribute_name(:status) %>:</strong></dt>
   <dd><%= @host.status %></dd>
 </dl>

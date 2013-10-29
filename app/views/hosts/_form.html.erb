@@ -2,7 +2,8 @@
   <legend><%= controller.action_name.capitalize %> Host</legend>
   <%= f.text_field :name, :placeholder => "Name of host" %>
   <%= f.text_field :ip, :placeholder => "Self detected", :readonly => true %>
-  
+  <%= f.check_box :cygwin %>
+	
   <div class="form-actions"> 
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to 'Cancel', hosts_path, :class => 'btn' %>
