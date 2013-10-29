@@ -67,7 +67,7 @@ class BackupsController < ApplicationController
   def update
     respond_to do |format|
       if @backup.update(backup_params)
-        format.html { redirect_to @backup, notice: 'Backup was successfully updated.' }
+        format.html { redirect_to backups_path, notice: 'Backup was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
