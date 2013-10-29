@@ -13,7 +13,7 @@
     <% unless @backups.empty? %>
 	  <% @backups.each do |backup| %>
 	    <tr>
-	      <td><%= backup.host.name %></td>
+	      <td><%= backup.host ? backup.host.name : "Undefined" %></td>
 	      <td><%= link_to backup.path, backup_path(backup)%></td>
 	      <td><%= backup.status %></td>
 	      <td><%= backup.last %></td>

@@ -5,6 +5,16 @@ class Backup < ActiveRecord::Base
   validates   :host_id, presence: true
   validates   :path, presence: true
   
+  # Convert windows path to cygwin path
+  # c:/Mis documentos -> /cygdrive/c/Mis documentos
+  def real_path
+	if self.host.cygwin
+		"/cygdrive/#{self.path[0]}#{self.path[2..-1]}"
+	else
+		self.path
+	end
+  end
+  
   def create_backup
     # Where to store backup
     # /upload/path/uid/bid
@@ -12,11 +22,14 @@ class Backup < ActiveRecord::Base
     
     # Create /upload/path/uid/bid
     FileUtils.mkdir_p(local_path) unless File.exists?(local_path)
+    
+	client_path = self.real_path
+	
     begin Timeout::timeout(5) do
       begin
         Net::SCP.download!( self.host.name,                               # Host to backup
                             APP_CONFIG['user'],                           # User to connect
-                            self.path,                                    # Remote path
+                            client_path,                                    # Remote path
                             local_path,                                   # Local path
                             :recursive => true,                           # Recursive
                             :ssh => { :password => APP_CONFIG['pass'] })  # Pass

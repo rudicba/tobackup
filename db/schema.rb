@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(version: 20131029141525) do
     t.boolean  "cygwin"
   end
 
+  create_table "testhosts", force: true do |t|
+    t.string   "name"
+    t.string   "ip"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "login",               default: "", null: false
     t.string   "encrypted_password",  default: "", null: false
