@@ -2,7 +2,7 @@ Tobackup::Application.routes.draw do
   
   resources :backups do
     patch 'now', on: :member
-    resources :backup_files do
+    resources :cfiles do
       patch 'download', on: :member
     end
   end

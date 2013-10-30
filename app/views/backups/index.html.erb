@@ -11,33 +11,34 @@
   </thead>
   <tbody>
     <% unless @backups.empty? %>
-	  <% @backups.each do |backup| %>
+	    <% @backups.each do |backup| %>
+	      <tr>
+	        <td><%= backup.host ? backup.host.name : "Undefined" %></td>
+	        <td><%= link_to backup.path, backup_path(backup)%></td>
+	        <td><%= backup.status %></td>
+	        <td><%= backup.last %></td>
+	        <td>
+	          <%= link_to t('.backup_now', :default => t("backup now")),
+	                       now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
+	          <%= link_to t('.download', :default => t("Download")),
+	                        backup_cfiles_path(backup), :class => 'btn btn-mini', :method => :get %>
+	        </td>
+	        <td>
+	          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+	                       edit_backup_path(backup), :class => 'btn btn-mini' %>
+	          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+	                       backup_path(backup),
+	                       :method => :delete,
+	                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", 
+                                                  :default => 'Are you sure?')) },
+	                       :class => 'btn btn-mini btn-danger' %>
+	        </td>
+	      </tr>
+	    <% end %>
+    <% else %>
 	    <tr>
-	      <td><%= backup.host ? backup.host.name : "Undefined" %></td>
-	      <td><%= link_to backup.path, backup_path(backup)%></td>
-	      <td><%= backup.status %></td>
-	      <td><%= backup.last %></td>
-	      <td>
-	        <%= link_to t('.backup_now', :default => t("backup now")),
-	                     now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
-	        <%= link_to t('.download', :default => t("Download")),
-	                      backup_backup_files_path(backup), :class => 'btn btn-mini', :method => :get %>
-	      </td>
-	      <td>
-	        <%= link_to t('.edit', :default => t("helpers.links.edit")),
-	                     edit_backup_path(backup), :class => 'btn btn-mini' %>
-	        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-	                     backup_path(backup),
-	                     :method => :delete,
-	                     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-	                     :class => 'btn btn-mini btn-danger' %>
-	      </td>
+	      <td colspan="6">Nothing to see here...</td>
 	    </tr>
-	  <% end %>
-	<% else %>
-	  <tr>
-	    <td colspan="0">Nothing to see here...</td>
-	  </tr>
-	<% end %>
+  	<% end %>
   </tbody>
 </table>

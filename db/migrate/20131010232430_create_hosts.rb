@@ -4,6 +4,7 @@ class CreateHosts < ActiveRecord::Migration
       t.string :name
       t.string :ip
       t.string :status
+      t.boolean :cygwin
 
       t.timestamps
     end

@@ -11,16 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131029220830) do
-
-  create_table "backup_files", force: true do |t|
-    t.string   "path"
-    t.integer  "backup_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "backup_files", ["backup_id"], name: "index_backup_files_on_backup_id"
+ActiveRecord::Schema.define(version: 20131030214752) do
 
   create_table "backups", force: true do |t|
     t.string   "path"
@@ -35,19 +26,21 @@ ActiveRecord::Schema.define(version: 20131029220830) do
   add_index "backups", ["host_id"], name: "index_backups_on_host_id"
   add_index "backups", ["user_id"], name: "index_backups_on_user_id"
 
+  create_table "cfiles", force: true do |t|
+    t.string   "path"
+    t.datetime "date"
+    t.integer  "backup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cfiles", ["backup_id"], name: "index_cfiles_on_backup_id"
+
   create_table "hosts", force: true do |t|
     t.string   "name"
     t.string   "ip"
     t.string   "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.boolean  "cygwin"
-  end
-
-  create_table "testhosts", force: true do |t|
-    t.string   "name"
-    t.string   "ip"
-    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

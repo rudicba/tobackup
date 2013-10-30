@@ -1,7 +1,7 @@
 class Backup < ActiveRecord::Base
   belongs_to  :user
   belongs_to  :host
-  has_many    :backup_files
+  has_many    :cfiles
   validates   :user_id, presence: true
   validates   :host_id, presence: true
   validates   :path, presence: true
@@ -18,15 +18,16 @@ class Backup < ActiveRecord::Base
     
   def create_backup
 
-    # Where to store backup
-    # /upload/path/uid/bid/last
+    # /foo/bar/uid/bid/
     store_path = File.join(APP_CONFIG['upload_path'], self.user_id.to_s, self.id.to_s)
+
+    # /foo/bar/uid/bid/last
     last_path = File.join(store_path, 'last')
     
-    # Create /upload/path/uid/bid
+    # Create /foo/bar/uid/bid/last
     FileUtils.mkdir_p(last_path) unless File.exists?(last_path)
     
-    # Get real path of client
+    # Get real path of client (windows to cygwin)
     client_path = self.real_path
 	
     begin Timeout::timeout(5) do
@@ -46,10 +47,7 @@ class Backup < ActiveRecord::Base
     rescue Exception => msg
       self.status = msg.to_s
     end
-    
-    # New Backupfile
-    #@backupfile = self.backup_files.build()
-    
+
     # Create zip from last store_path
     self.zip 
     
@@ -57,32 +55,24 @@ class Backup < ActiveRecord::Base
   end
   
   def zip
+    # Convert again to time => (t = time.at(i))
     current_time = Time.now
-    date = current_time.strftime("%d-%m-%Y")
-    time = current_time.strftime("%I:%M%p")
-    
+
+    # /foo/bar/uid/bid/
     store_path = File.join(APP_CONFIG['upload_path'], self.user_id.to_s, self.id.to_s)
+
+    # /foo/bar/uid/bid/last
     last_path = File.join(store_path, 'last')
-    file = File.basename(self.path)
+
+    # self.path = /client/foo/bar/backupme
+    # file      = backupme   
+    filename = File.basename(self.path)
    
-    zipfile_name = File.join(store_path, "#{date}-#{time}.tgz")
+    # /foo/bar/uid/bid/000000000.tgz
+    zipfile_name = File.join(store_path, "#{current_time.to_i}.tgz")
     
+    system("tar -czf #{zipfile_name} -C #{last_path} #{filename}")
     
-    system("tar -czf #{zipfile_name} -C #{last_path} #{file}")
-    
-    self.backup_files.build(path: zipfile_name)
-   
-    # Store in DB where is zip
-    #self.path = zipfile_name
-  end
-  
-  def generate_tgz
-    tmpname = rand(36**8).to_s(8)
-    local_path = File.join(APP_CONFIG['upload_path'], self.user_id.to_s, self.id.to_s)
-    file = File.basename(self.path)
-    
-    if system("tar -czf #{Rails.root}/tmp/#{tmpname}.tgz -C #{local_path} #{file}")
-      content = File.read("#{Rails.root}/tmp/#{tmpname}.tgz")
-    end
+    self.cfiles.build(path: zipfile_name, date: current_time)
   end
 end
