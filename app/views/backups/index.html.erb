@@ -21,7 +21,7 @@
 	        <%= link_to t('.backup_now', :default => t("backup now")),
 	                     now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
 	        <%= link_to t('.download', :default => t("Download")),
-	                     download_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
+	                      backup_backup_files_path(backup), :class => 'btn btn-mini', :method => :get %>
 	      </td>
 	      <td>
 	        <%= link_to t('.edit', :default => t("helpers.links.edit")),

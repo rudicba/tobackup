@@ -32,6 +32,9 @@ gem "net-ping"
 # http://rubygems.org/gems/net-sftp
 #gem "net-sftp", "~> 2.1.2"
 
+# https://github.com/rubyzip/rubyzip
+gem "rubyzip"
+
 # https://rubygems.org/gems/net-scp
 gem "net-scp", "~> 1.1.2"
 

@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131029141525) do
+ActiveRecord::Schema.define(version: 20131029220830) do
+
+  create_table "backup_files", force: true do |t|
+    t.string   "path"
+    t.integer  "backup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "backup_files", ["backup_id"], name: "index_backup_files_on_backup_id"
 
   create_table "backups", force: true do |t|
     t.string   "path"
