@@ -20,7 +20,7 @@
 	        <td>
 	          <%= link_to t('.backup_now', :default => t("backup now")),
 	                       now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
-	          <%= link_to t('.download', :default => t("Download")),
+	          <%= link_to t('.restore', :default => t("Restore")),
 	                        backup_cfiles_path(backup), :class => 'btn btn-mini', :method => :get %>
 	        </td>
 	        <td>

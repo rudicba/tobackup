@@ -1,8 +1,8 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Path</th>
       <th>Date</th>
+      <th>Size</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -10,17 +10,23 @@
     <% unless @cfiles.empty? %>
 	    <% @cfiles.each do |cfile| %>
 	      <tr>
-	        <td><%= cfile.path %></td>
-          <td><%= cfile.date %></td>
+	      	<td><%= cfile.date %></td>
+          	<td><%= cfile.size %></td>
 	        <td>
 	          <%= link_to t('.download', :default => t("Download")),
-	                        backup_cfiles_path(cfile), :class => 'btn btn-mini', :method => :get %>
+	                        download_backup_cfile_path(@backup, cfile), :class => 'btn btn-mini', :method => :patch %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+	                       cfile_path(cfile	),
+	                       :method => :delete,
+	                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", 
+                                                  :default => 'Are you sure?')) },
+	                       :class => 'btn btn-mini btn-danger' %>
 	        </td>
 	      </tr>
 	    <% end %>
     <% else %>
 	    <tr>
-	      <td colspan="2">Nothing to see here...</td>
+	      <td colspan="3">Nothing to see here...</td>
 	    </tr>
   	<% end %>
   </tbody>

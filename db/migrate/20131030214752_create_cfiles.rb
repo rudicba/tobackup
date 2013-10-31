@@ -3,6 +3,7 @@ class CreateCfiles < ActiveRecord::Migration
     create_table :cfiles do |t|
       t.string :path
       t.datetime :date
+      t.integer :size
       t.references :backup, index: true
 
       t.timestamps

@@ -1,14 +1,29 @@
 class CfilesController < ApplicationController
-  before_action :set_cfile, only: [:show, :edit, :update, :destroy, :now, :download]
+  before_action :set_cfile, only: [:destroy, :download]
   before_filter :authenticate_user!
 
+  # GET /backups/:backup_id/cfiles
+  # GET /backups/:backup_id/cfiles  .xml
   def index
     # Get Backup
-    @backups = Backup.find(params[:backup_id])
-    @cfiles = @backups.cfiles
+    @backup = Backup.find(params[:backup_id])
+    @cfiles = @backup.cfiles
   end
 
+  # GET /backups/:backup_id/cfile/:id
+  # GET /cfile/:id.xml
   def download
+    send_file @cfile.path.to_s
+  end
+  
+  # DELETE /backups/1
+  # DELETE /backups/1.json
+  def destroy
+    @cfile.destroy
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { head :no_content }
+    end
   end
 
   private

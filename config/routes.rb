@@ -6,6 +6,8 @@ Tobackup::Application.routes.draw do
       patch 'download', on: :member
     end
   end
+  
+  resources :cfiles, only: [:destroy]
 
   resources :hosts do
     patch 'check',  on: :member
