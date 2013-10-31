@@ -29,17 +29,13 @@ gem "twitter-bootstrap-rails"
 # http://rubygems.org/gems/net-ping
 gem "net-ping"
 
-# http://rubygems.org/gems/net-sftp
-#gem "net-sftp", "~> 2.1.2"
-
-# https://github.com/rubyzip/rubyzip
-gem "rubyzip"
-
 # https://rubygems.org/gems/net-scp
 gem "net-scp", "~> 1.1.2"
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+gem 'thin'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'

@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 20131030214752) do
     t.string   "name"
     t.string   "ip"
     t.string   "status"
-    t.boolean  "cygwin"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "cygwin"
   end
 
   create_table "users", force: true do |t|
