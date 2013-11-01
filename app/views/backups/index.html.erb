@@ -18,9 +18,9 @@
 	        <td><%= backup.status %></td>
 	        <td><%= backup.last %></td>
 	        <td>
-	          <%= link_to t('.backup_now', :default => t("backup now")),
+	          <%= link_to t('.sync_now', :default => t("SyncNow")),
 	                       now_backup_path(backup), :class => 'btn btn-mini', :method => :patch %>
-	          <%= link_to t('.restore', :default => t("Restore")),
+	          <%= link_to t('.snapshots', :default => t("Snapshots")),
 	                        backup_cfiles_path(backup), :class => 'btn btn-mini', :method => :get %>
 	        </td>
 	        <td>

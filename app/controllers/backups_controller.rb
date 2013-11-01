@@ -1,3 +1,6 @@
+require 'pty'
+require 'expect'
+
 class BackupsController < ApplicationController
   before_action :set_backup, only: [:show, :edit, :update, :destroy, :now, :download]
   before_filter :authenticate_user!
@@ -16,7 +19,7 @@ class BackupsController < ApplicationController
   
   # PATCH /backup/1/now
   def now
-    @backup.create_backup
+    @backup.sync
     if @backup.status == "ok"
       redirect_to backups_path, notice: 'Backup was successfully upload.'
     else
