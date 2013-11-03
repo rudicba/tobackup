@@ -27,17 +27,17 @@ class Backup < ActiveRecord::Base
 
     FileUtils.mkdir_p(sync_path) unless File.exists?(sync_path)
     
-    cmd = "#{APP_CONFIG['rsync']} -r -a -v -e \"ssh -o StrictHostKeyChecking=no -l #{APP_CONFIG['user']}\" --delete #{self.host.name}:#{client_path} #{sync_path}" 
+    cmd = "#{APP_CONFIG['rsync_path']} -r -a -v -e \"ssh -o StrictHostKeyChecking=no -l #{APP_CONFIG['rsync_user']}\" --delete #{self.host.name}:#{client_path} #{sync_path}" 
     
     puts(cmd) 
     begin
       PTY.spawn(cmd) do |r, w|
         w.sync = true
         puts("login...")
-        r.expect(/assword:/) { w.puts("#{APP_CONFIG['pass']}\n") }
+        r.expect(/assword:/) { w.puts("#{APP_CONFIG['rsync_pass']}\n") }
         puts("waiting finish.")
         r.expect(/total size/) do |l|
-          puts (l.to_s)
+          puts(l.to_s)
           puts("done.\n")
         end
       end
@@ -52,45 +52,7 @@ class Backup < ActiveRecord::Base
 
     self.save
   end
-    
-  def create_backup
-
-    # /foo/bar/uid/bid/
-    store_path = File.join(APP_CONFIG['upload_path'], self.user_id.to_s, self.id.to_s)
-
-    # /foo/bar/uid/bid/last
-    last_path = File.join(store_path, 'last')
-    
-    # Create /foo/bar/uid/bid/last
-    FileUtils.mkdir_p(last_path) unless File.exists?(last_path)
-    
-    # Get real path of client (windows to cygwin)
-    client_path = self.real_path
-	
-    begin Timeout::timeout(5) do
-      begin
-        Net::SCP.download!( self.host.name,                               # Host to backup
-                            APP_CONFIG['user'],                           # User to connect
-                            client_path,                                  # Remote path
-                            last_path,                                    # Last path
-                            :recursive => true,                           # Recursive
-                            :ssh => { :password => APP_CONFIG['pass'] } ) # Pass
-        self.status = "ok"
-        self.last = Time.now
-      rescue Exception => msg
-        self.status = msg.to_s
-      end
-    end
-    rescue Exception => msg
-      self.status = msg.to_s
-    end
-
-    # Create zip from last store_path
-    self.zip 
-    
-    self.save
-  end
-  
+     
   def zip
     # Convert again to time => (t = time.at(i))
     current_time = Time.now

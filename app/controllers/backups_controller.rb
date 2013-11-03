@@ -1,15 +1,13 @@
-require 'pty'
-require 'expect'
-
 class BackupsController < ApplicationController
   before_action :set_backup, only: [:show, :edit, :update, :destroy, :now, :download]
   before_filter :authenticate_user!
+  load_and_authorize_resource except: [:create]
 
   # GET /backups
   # GET /backups.json
   def index
     #@backups = Backup.all
-    @backups = current_user.backups
+    #@backups = current_user.backups
   end
 
   # GET /backups/1
@@ -52,7 +50,6 @@ class BackupsController < ApplicationController
   # POST /backups.json
   def create
     @backup = current_user.backups.build(backup_params)
-    @backup.user = current_user
 
     respond_to do |format|
       if @backup.save
