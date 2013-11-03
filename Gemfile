@@ -37,6 +37,9 @@ gem 'jquery-rails'
 
 gem 'thin'
 
+# https://github.com/ryanb/cancan
+gem "cancan"
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
