@@ -27,7 +27,7 @@ class Backup < ActiveRecord::Base
 
     FileUtils.mkdir_p(sync_path) unless File.exists?(sync_path)
     
-    cmd = "#{APP_CONFIG['rsync']} -r -a -v -e \"ssh -o StrictHostKeyChecking=no -l #{APP_CONFIG['user']}\" --delete #{self.host.name}:#{client_path} #{sync_path}" 
+    cmd = "#{APP_CONFIG['rsync']} -ravz -e 'ssh -o StrictHostKeyChecking=no -l #{APP_CONFIG['user']}' --delete #{self.host.name}:#{client_path} #{sync_path}" 
     
     puts(cmd) 
     begin
@@ -36,17 +36,23 @@ class Backup < ActiveRecord::Base
         puts("login...")
         r.expect(/assword:/) { w.puts("#{APP_CONFIG['pass']}\n") }
         puts("waiting finish.")
-        r.expect(/total size/) do |l|
-          puts (l.to_s)
-          puts("done.\n")
+        r.expect(/rsync error|done/,10) do |line|
+          if line.to_s.include?("rsync error") then
+            puts("Rsync error")
+            self.status = "rsync error"
+          else
+            puts("Rsync OK")
+            self.status = "ok"
+          end
         end
       end
     rescue PTY::ChildExited => e
-      puts("rsync process finished.\n")
+      puts PTY::ChildExited[" + e.status + "]
+    rescue => e
+      puts e.class.to_s + "[" + e.message + "]"
     end
 
     self.last = Time.now
-    self.status = "ok"
 
     self.zip 
 
