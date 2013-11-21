@@ -1,3 +1,11 @@
+task :cron_sync => :environment do
+  Host.all.each do |host|
+    host.backups.all.each do |backup|
+		backup.sync
+    end
+  end  
+end
+
 def scpdownload (backup)
   username    = APP_CONFIG['user']
   password    = APP_CONFIG['pass']
@@ -21,10 +29,6 @@ task :cron_scp => :environment do
     end
   end  
 end
-
-
-
-
 
 def sftpdownload (uid, bid, host, path)
   user        = APP_CONFIG['user']
@@ -64,8 +68,6 @@ def download_file (uid, bid, sftp, remote_path, file)
   end 
       
 end
-
-
 
 task :cron_sftp => :environment do
   Host.all.each do |host|

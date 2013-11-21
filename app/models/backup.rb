@@ -58,7 +58,8 @@ class Backup < ActiveRecord::Base
 
     self.save
   end
-    
+   
+  # EN DESUSO, SOLO FINES INFORMATIVOS	 
   def create_backup
 
     # /foo/bar/uid/bid/
