@@ -22,3 +22,32 @@ add "gem 'therubyracer-freebsd', platforms: :ruby"
 
 copy config/database.yml.example to config/database.yml
 copy config/config.yml.example to config/config.yml
+
+=== Install on Linux "Debian"
+
+sudo apt-get install ruby ruby-dev build-essential libsqlite3-dev 
+
+---
+vi ~/.gemrc
+
+install: --no-rdoc --no-ri
+update:  --no-rdoc --no-ri
+---
+
+sudo gem install rails 
+cd /path/to/install
+git clone https://github.com/rudicba/tobackup.git
+cd tobackup
+
+bundle install
+
+cp config/database.yml.example config/database.yml
+cp config/config.yml.example config/config.yml
+rake db:migrate
+
+rake secret
+vi config/initializers/secret_token.rb
+Tobackup::Application.config.secret_token = 'generatesecrettoken.......'
+
+
+
